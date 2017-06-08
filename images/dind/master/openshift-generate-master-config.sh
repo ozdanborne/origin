@@ -37,6 +37,11 @@ function ensure-master-config() {
   # ensure the configuration can be used outside of the container
   chmod -R ga+rX "${master_path}"
   chmod ga+w "${master_path}/admin.kubeconfig"
+
+  echo "ETCD_ENDPOINTS=https://${ip_addr}:2379" > ${master_path}/calico-env
+  echo "ETCD_KEY_FILE=/data/openshift.local.config/master/master.etcd-client.key" >> ${master_path}/calico-env
+  echo "ETCD_CA_CERT_FILE=/data/openshift.local.config/master/etcd.server.crt" >> ${master_path}/calico-env
+  echo "ETCD_CERT_FILE=/data/openshift.local.config/master/master.etcd-client.crt" >> ${master_path}/calico-env
 }
 
 ensure-master-config
