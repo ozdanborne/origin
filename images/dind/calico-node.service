@@ -1,0 +1,16 @@
+[Unit]
+Description=Calico Node Service
+Documentation=https://github.com/openshift/origin
+After=network-online.target
+After=etcd.service
+Before=origin-node.service
+Requires=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/docker run --net=host --privileged --name=calico-node --rm -e ETCD_SCHEME=http -e ETCD_ENDPOINTS=127.0.0.1:2379 -e CALICO_NETWORKING_BACKEND=bird -e CALICO_LIBNETWORK_ENABLED=false -v /var/log/calico:/var/log/calico -v /lib/modules:/lib/modules quay.io/calico/node:v1.1.0
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

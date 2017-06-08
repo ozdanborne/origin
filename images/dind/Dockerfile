@@ -72,6 +72,9 @@ COPY dind-setup.sh /usr/local/bin/
 COPY dind-setup.service /etc/systemd/system/
 RUN systemctl enable dind-setup.service
 
+COPY calico-node.service /etc/systemd/system/
+RUN systemctl enable calico-node.service
+
 VOLUME ["/var/lib/docker"]
 
 # Hardlink init to another name to avoid having oci-systemd-hooks
